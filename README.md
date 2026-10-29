@@ -14,9 +14,9 @@ Native Kotlin and Jetpack Compose, talking to Gemini Live straight from your pho
 <br>
 
 [![Build](https://img.shields.io/github/actions/workflow/status/spidertox/Arya/android.yml?branch=main&style=for-the-badge&logo=githubactions&logoColor=white&label=build)](https://github.com/spidertox/Arya/actions/workflows/android.yml)
-[![Release](https://img.shields.io/github/v/release/OWNER/REPO?include_prereleases&style=for-the-badge&logo=github&label=release)](https://github.com/spidertox/Arya/releases)
-[![License](https://img.shields.io/github/license/OWNER/REPO?style=for-the-badge&label=license&color=blue)](LICENSE)
-[![Stars](https://img.shields.io/github/stars/OWNER/REPO?style=for-the-badge&logo=github)](https://github.com/OWNER/REPO/stargazers)
+[![Release](https://img.shields.io/github/v/release/spidertox/Arya?include_prereleases&style=for-the-badge&logo=github&label=release)](https://github.com/spidertox/Arya/releases)
+[![License](https://img.shields.io/github/license/spidertox/Arya?style=for-the-badge&label=license&color=blue)](LICENSE)
+[![Stars](https://img.shields.io/github/stars/spidertox/Arya?style=for-the-badge&logo=github)](https://github.com/spidertox/Arya/stargazers)
 
 ![Kotlin](https://img.shields.io/badge/Kotlin-2.2-7F52FF?style=for-the-badge&logo=kotlin&logoColor=white)
 ![Jetpack Compose](https://img.shields.io/badge/Jetpack%20Compose-Material%203-4285F4?style=for-the-badge&logo=jetpackcompose&logoColor=white)
