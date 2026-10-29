@@ -1,23 +1,36 @@
-name: Build Arya
+
+name: Build Arya Android APK
 
 on:
   push:
-    branches: [main]
-    tags: ["v*"]
+    branches:
+      - main
+    tags:
+      - "v*"
   pull_request:
+    branches:
+      - main
   workflow_dispatch:
 
 permissions:
   contents: write
 
+concurrency:
+  group: arya-android-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build:
+    name: Build and Publish APK
     runs-on: ubuntu-latest
+    timeout-minutes: 45
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout Repository
+        uses: actions/checkout@v4
 
-      - uses: actions/setup-java@v4
+      - name: Set Up Java 17
+        uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: "17"
@@ -25,39 +38,95 @@ jobs:
       - name: Install Android SDK
         shell: bash
         run: |
-          set -e
-          export ANDROID_SDK_ROOT="$RUNNER_TEMP/android-sdk"
-          mkdir -p "$ANDROID_SDK_ROOT/cmdline-tools"
-          cd "$ANDROID_SDK_ROOT/cmdline-tools"
+          set -euo pipefail
 
-          curl -fsSL \
-            https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip \
-            -o tools.zip
+          SDK_ROOT="$RUNNER_TEMP/android-sdk"
+          mkdir -p "$SDK_ROOT/cmdline-tools"
 
-          unzip -q tools.zip
-          rm tools.zip
-          mv cmdline-tools latest
+          cd "$RUNNER_TEMP"
+          curl -fL --retry 3 \
+            "https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip" \
+            -o android-tools.zip
 
-          echo "ANDROID_SDK_ROOT=$ANDROID_SDK_ROOT" >> "$GITHUB_ENV"
-          echo "ANDROID_HOME=$ANDROID_SDK_ROOT" >> "$GITHUB_ENV"
-          echo "$ANDROID_SDK_ROOT/platform-tools" >> "$GITHUB_PATH"
-          echo "$ANDROID_SDK_ROOT/cmdline-tools/latest/bin" >> "$GITHUB_PATH"
+          unzip -q android-tools.zip
+          mv cmdline-tools "$SDK_ROOT/cmdline-tools/latest"
+          rm android-tools.zip
 
-          yes | "$ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager" --licenses
+          echo "ANDROID_HOME=$SDK_ROOT" >> "$GITHUB_ENV"
+          echo "ANDROID_SDK_ROOT=$SDK_ROOT" >> "$GITHUB_ENV"
+          echo "$SDK_ROOT/platform-tools" >> "$GITHUB_PATH"
+          echo "$SDK_ROOT/cmdline-tools/latest/bin" >> "$GITHUB_PATH"
 
-          "$ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager" \
-            --install "platform-tools" "platforms;android-36" "build-tools;36.0.0"
+          yes | "$SDK_ROOT/cmdline-tools/latest/bin/sdkmanager" --licenses || true
 
-      - uses: gradle/actions/setup-gradle@v4
+          "$SDK_ROOT/cmdline-tools/latest/bin/sdkmanager" \
+            --install \
+            "platform-tools" \
+            "platforms;android-36" \
+            "build-tools;36.0.0"
+
+      - name: Set Up Gradle
+        uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: "8.14.3"
 
-      - name: Build Debug APK
-        run: gradle :app:assembleDebug --no-daemon --stacktrace
+      - name: Verify Project Files
+        shell: bash
+        run: |
+          set -e
+          echo "Repository root:"
+          pwd
+          echo "Project files:"
+          ls -la
 
-      - name: Upload APK
+          if [ ! -f "app/build.gradle.kts" ] && [ ! -f "app/build.gradle" ]; then
+            echo "::error::App Gradle file not found. Check the Android project root."
+            exit 1
+          fi
+
+      - name: Build Debug APK
+        shell: bash
+        run: |
+          set -euo pipefail
+          gradle :app:assembleDebug --no-daemon --stacktrace
+
+      - name: Rename APK
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          APK="app/build/outputs/apk/debug/app-debug.apk"
+
+          if [ ! -f "$APK" ]; then
+            echo "::error::APK not found at $APK"
+            find app/build/outputs -type f -name "*.apk" || true
+            exit 1
+          fi
+
+          cp "$APK" Arya-debug.apk
+          sha256sum Arya-debug.apk > Arya-debug.apk.sha256
+
+      - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
         with:
           name: Arya-debug-apk
-          path: app/build/outputs/apk/debug/app-debug.apk
+          path: |
+            Arya-debug.apk
+            Arya-debug.apk.sha256
           if-no-files-found: error
+          retention-days: 30
+
+      - name: Publish APK to GitHub Release
+        if: startsWith(github.ref, 'refs/tags/v') || github.ref == 'refs/heads/main'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref == 'refs/heads/main' && 'latest' || github.ref_name }}
+          name: ${{ github.ref == 'refs/heads/main' && 'Arya Latest APK' || format('Arya {0}', github.ref_name) }}
+          target_commitish: ${{ github.sha }}
+          make_latest: ${{ github.ref == 'refs/heads/main' }}
+          files: |
+            Arya-debug.apk
+            Arya-debug.apk.sha256
+          overwrite_files: true
+          fail_on_unmatched_files: true
+ 
