@@ -231,11 +231,11 @@ The character artwork is separate from the source code: use only art you have th
 
 <br>
 
-![Issues](https://img.shields.io/github/issues/OWNER/REPO?style=flat-square)
-![Last commit](https://img.shields.io/github/last-commit/OWNER/REPO?style=flat-square)
-![Downloads](https://img.shields.io/github/downloads/OWNER/REPO/total?style=flat-square)
-![Top language](https://img.shields.io/github/languages/top/OWNER/REPO?style=flat-square&logo=kotlin)
-![Repo size](https://img.shields.io/github/repo-size/OWNER/REPO?style=flat-square)
+![Issues](https://img.shields.io/github/issues/spidertox/Arya?style=flat-square)
+![Last commit](https://img.shields.io/github/last-commit/spidertox/Arya?style=flat-square)
+![Downloads](https://img.shields.io/github/downloads/spidertox/Arya/total?style=flat-square)
+![Top language](https://img.shields.io/github/languages/top/spidertox/Arya?style=flat-square&logo=kotlin)
+![Repo size](https://img.shields.io/github/repo-size/spidertox/Arya?style=flat-square)
 
 <sub>If Arya is useful to you, a ⭐ on GitHub helps others find it.</sub>
 
