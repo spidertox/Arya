@@ -1,0 +1,17 @@
+name: Feature request
+description: Suggest an idea for Arya
+labels:
+  - enhancement
+body:
+  - type: textarea
+    id: idea
+    attributes:
+      label: What would you like Arya to do?
+      description: Describe the problem first, then your idea.
+    validations:
+      required: true
+  - type: textarea
+    id: privacy
+    attributes:
+      label: Privacy or permission impact
+      description: Would this need a new permission or send data anywhere new?

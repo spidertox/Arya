@@ -1,0 +1,39 @@
+name: Bug report
+description: Something in Arya is not working
+labels:
+  - bug
+body:
+  - type: input
+    id: device
+    attributes:
+      label: Phone model and Android version
+      placeholder: "Pixel 8, Android 16"
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Voice conversation
+        - Wake word
+        - Phone commands
+        - Notifications / service
+        - UI
+        - Build
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: What did you do or say, what did you expect, and what actually happened?
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs (optional)
+      description: Never paste your API key.
+      render: shell

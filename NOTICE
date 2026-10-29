@@ -1,0 +1,5 @@
+Arya
+Copyright 2026 The Arya authors
+
+Derived from MYRAA 1.5.2 (a Windows desktop AI companion). This is a native Android
+rewrite in Kotlin and Jetpack Compose; the desktop shell, backend and PC-control agent were removed.

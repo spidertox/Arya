@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Arya</string>
+    <string name="channel_voice_name">Arya voice</string>
+    <string name="channel_voice_desc">Shown while Arya is in a conversation or listening for “Hey Arya”.</string>
+    <string name="channel_action_name">Arya actions</string>
+    <string name="channel_action_desc">Tap to finish an action Arya started while the app was closed.</string>
+    <string name="notif_title">Arya</string>
+    <string name="notif_talking">Talking with Arya</string>
+    <string name="notif_listening">Listening for “Hey Arya”</string>
+    <string name="notif_stop">Stop</string>
+</resources>
