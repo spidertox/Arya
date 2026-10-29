@@ -13,8 +13,8 @@ Native Kotlin and Jetpack Compose, talking to Gemini Live straight from your pho
 
 <br>
 
-[![Build](https://img.shields.io/github/actions/workflow/status/spidertox/Arya/android.yml?branch=main&style=for-the-badge&logo=githubactions&logoColor=white&label=build)](https://github.com/OWNER/REPO/actions/workflows/android.yml)
-[![Release](https://img.shields.io/github/v/release/OWNER/REPO?include_prereleases&style=for-the-badge&logo=github&label=release)](https://github.com/OWNER/REPO/releases)
+[![Build](https://img.shields.io/github/actions/workflow/status/spidertox/Arya/android.yml?branch=main&style=for-the-badge&logo=githubactions&logoColor=white&label=build)](https://github.com/spidertox/Arya/actions/workflows/android.yml)
+[![Release](https://img.shields.io/github/v/release/OWNER/REPO?include_prereleases&style=for-the-badge&logo=github&label=release)](https://github.com/spidertox/Arya/releases)
 [![License](https://img.shields.io/github/license/OWNER/REPO?style=for-the-badge&label=license&color=blue)](LICENSE)
 [![Stars](https://img.shields.io/github/stars/OWNER/REPO?style=for-the-badge&logo=github)](https://github.com/OWNER/REPO/stargazers)
 
